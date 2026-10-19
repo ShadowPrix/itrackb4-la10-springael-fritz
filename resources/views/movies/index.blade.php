@@ -43,6 +43,7 @@
 
             <table class="table table-bordered table-striped" border="1" cellpadding="5" cellspacing="8">
                 <tr>
+                    <th>No.</th>
                     <th>Title</th>
                     <th>Genre</th>
                     <th>Rating</th>
@@ -51,6 +52,7 @@
 
                 @foreach ($movies as $movie)
                     <tr>
+                        <td>{{ $loop->iteration }}</td>
                         <td><a href="{{ route('movies.show', $movie['id']) }}">{{ $movie['title'] }}</a></td>
                         <td>{{ $movie['genre'] }}</td>
                         <td>{{ $movie['rating'] }}</td>
