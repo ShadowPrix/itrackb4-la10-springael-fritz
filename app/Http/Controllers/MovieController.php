@@ -4,36 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Movie;
+use App\Models\Genre;
 
 class MovieController extends Controller
 {
     public function index(Request $request)
     {
-        $genre = $request->query('genre', 'all');
-        $year = $request->query('year', 'all');
+        $genreId = $request->query('genre_id');
+        $year = $request->query('year');
 
-        $movies = Movie::all();
+        $genres = Genre::all();
 
-        if ($genre !== 'all') {
-            $movies = $movies->where('genre', $genre);
+        $query = Movie::with('genre');
+
+        if ($genreId) {
+            $query = $query->where('genre_id', $genreId);
         }
-        if ($year !== 'all') {
-            $movies = $movies->where('year', $year);
+        if ($year) {
+            $query = $query->where('year', $year);
         }
 
-        return view('movies.index', compact('movies', 'genre', 'year'));
+        $movies = $query->get();
+
+        return view('movies.index', compact('movies', 'genres', 'genreId', 'year'));
     }
 
     public function create()
     {
-        return view('movies.create');
+        $genres = Genre::all();
+        return view('movies.create', compact('genres'));
     }
 
     public function store(Request $request)
     {
         $validated = $request->validate([
             'title' => 'required|max:100',
-            'genre' => 'required|in:Action,Comedy,Drama',
+            'genre_id' => 'required|exists:genres,id',
             'rating' => 'required|numeric|min:0|max:10',
             'year' => 'required|integer|min:1900|max:2100',
         ]);

@@ -17,13 +17,13 @@
                 </div>
                 <div class="mb-3">
                     <label for="genre">Genre</label>
-                    <select class="form-select" id="genre" name="genre">
+                    <select class="form-select" id="genre_id" name="genre_id">
                         <option value="">-Choose a genre-</option>
-                        <option value="Action" @selected(old('genre') == 'Action')>Action</option>
-                        <option value="Comedy" @selected(old('genre') == 'Comedy')>Comedy</option>
-                        <option value="Drama" @selected(old('genre') == 'Drama')>Drama</option>
+                        @foreach ($genres as $genre)
+                            <option value="{{ $genre->id }}" @selected(old('genre_id') == $genre->id)>{{ $genre->name }}</option>
+                        @endforeach
                     </select>
-                    @error('genre')
+                    @error('genre_id')
                         <div class="text-danger">{{ $message }}</div>
                     @enderror
                 </div>
@@ -45,4 +45,4 @@
             </form>
         </div>
     </div>
-@endsection 
+@endsection

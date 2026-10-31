@@ -16,7 +16,7 @@
                 </tr>
                 <tr>
                     <td>Genre</td>
-                    <td>{{ $movie['genre'] }}</td>
+                    <td>{{ $movie->genre->name }}</td>
                 </tr>
                 <tr>
                     <td>Rating</td>
